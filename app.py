@@ -12,17 +12,10 @@ from users import User
 app = Flask(__name__)
 ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
 VERIFY_TOKEN = os.getenv('VERIFY_TOKEN')
-# print("access token: " + ACCESS_TOKEN)
-# print("verify token: " + VERIFY_TOKEN)
 bot = Bot(ACCESS_TOKEN)
 users = {}
 pp = pprint.PrettyPrinter(indent=4)
 
-"""
-TODOs:
-
-let user delete his/her credentials to never receive messages again
-"""
 
 def thread_notifier(user):
     notices = scraper.scrape(user.portal_id, user.portal_password)
@@ -32,7 +25,7 @@ def thread_notifier(user):
         if user.stop:
             break
         notices = scraper.scrape(user.portal_id, user.portal_password)
-        pp.pprint(notices)
+        # pp.pprint(notices)
         if isinstance(notices, str):
             break
 
@@ -64,12 +57,12 @@ def receive_message():
        for event in output['entry']:
           messaging = event['messaging']
           for message in messaging:
-            pp.pprint(message)
+            # pp.pprint(message)
             recipient_id = message['sender']['id']
             if message.get('message'):
                 if message['message'].get('text'):
                     received = message['message'].get('text')
-                    pp.pprint(received)
+                    # pp.pprint(received)
                     user = users[recipient_id]
                     if user.get_id() == None:
                         user.update_id(received)
